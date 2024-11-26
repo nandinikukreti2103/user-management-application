@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <h1>Edit User</h1>
+  <form th:action="@{/editSaveUser}" th:object="${user}" method="post" class="mt-4">
+    <input type="hidden" name="id" th:value="*{id}" />
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First Name</label>
+      <input type="text" id="firstName" name="firstName" class="form-control" th:value="*{firstName}" required>
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input type="text" id="lastName" name="lastName" class="form-control" th:value="*{lastName}" required>
+    </div>
+    <div class="mb-3">
+      <label for="gender" class="form-label">Gender</label>
+      <select id="gender" name="gender" class="form-select" required>
+        <option value="Male" th:selected="*{gender == 'Male'}">Male</option>
+        <option value="Female" th:selected="*{gender == 'Female'}">Female</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="roles" class="form-label">Roles</label>
+      <select id="roles" th:field="*{roles}" class="form-control" multiple>
+        <option th:each="role : ${roles}" th:value="${role.id}" th:selected="*{roles.contains(role)}" th:text="${role.name}"></option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="/getUsers" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+</body>
+</html>
