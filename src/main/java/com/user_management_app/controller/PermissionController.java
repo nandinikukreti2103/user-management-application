@@ -50,7 +50,6 @@ public class PermissionController {
         return new ResponseEntity<>(permission, HttpStatus.OK);
     }
 
-    // Remove permission from role
     @DeleteMapping("/remove-permission-from-role/{roleId}/{permissionId}")
     public ResponseEntity<Void> removePermissionFromRole(@PathVariable("roleId") Long roleId, @PathVariable("permissionId") Long permissionId) {
         permissionService.removePermissionFromRole(roleId, permissionId);

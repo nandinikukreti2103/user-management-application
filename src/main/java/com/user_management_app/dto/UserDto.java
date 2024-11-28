@@ -1,6 +1,5 @@
 package com.user_management_app.dto;
 
-import com.user_management_app.entity.Role;
 import lombok.Data;
 
 import java.util.List;
@@ -12,7 +11,8 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String gender;
-    private Set<Long> roleIds; // Set of role IDs
+    private String email;
+    private Set<Long> roleIds;
 
     private List<String> roles;
     private List<String> permissions;
