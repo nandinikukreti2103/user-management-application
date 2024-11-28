@@ -31,7 +31,7 @@ public class NotificationService {
 
         User user = users.get();
         notification.setUser(user);
-        notification.setCreatedAt(LocalDateTime.now()); // Set the timestamp
+        notification.setCreatedAt(LocalDateTime.now());
         return notificationRepository.save(notification);
     }
 
