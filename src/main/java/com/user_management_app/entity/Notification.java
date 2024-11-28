@@ -35,12 +35,12 @@ public class Notification {
 
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // Specify the foreign key column
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now(); // Assign the current time when persisting
+        this.createdAt = LocalDateTime.now();
     }
 }
 
