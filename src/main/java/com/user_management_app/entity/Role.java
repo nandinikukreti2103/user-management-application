@@ -30,6 +30,7 @@ public class Role {
     private String description;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     @ManyToMany
@@ -38,7 +39,7 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
-
+    @JsonManagedReference
     private Set<Permission> permissions = new HashSet<>();
 
     public String getRoleName() {

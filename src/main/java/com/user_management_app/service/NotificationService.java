@@ -4,12 +4,11 @@ import com.user_management_app.entity.Notification;
 import com.user_management_app.entity.User;
 import com.user_management_app.repository.NotificationRepository;
 import com.user_management_app.repository.UserRepository;
-import com.user_management_app.service.NotificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,14 +30,13 @@ public class NotificationService {
 
         User user = users.get();
         notification.setUser(user);
-        notification.setCreatedAt(LocalDateTime.now()); // Set the timestamp
+        notification.setCreatedAt(LocalDateTime.now());
         return notificationRepository.save(notification);
     }
 
-    public List<Notification> getNotificationsByUserId(Long userId) {
-        return notificationRepository.findByUserId(userId);
+    public List<Notification> getAllNotification(){
+        return notificationRepository.findAll();
     }
-
 
     public Notification getNotificationById(Long notificationId) {
         return notificationRepository.findById(notificationId)
@@ -62,5 +60,13 @@ public class NotificationService {
         existingNotification.setMessage(notification.getMessage());
 
         return notificationRepository.save(existingNotification);
+    }
+
+    public List<Notification> getAllNotificationForSpecificUser(Long userId){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("user not found with this id: " + userId));
+
+        return new ArrayList<>(user.getNotifications());
     }
 }

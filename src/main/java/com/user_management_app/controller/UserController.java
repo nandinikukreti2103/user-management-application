@@ -2,6 +2,7 @@ package com.user_management_app.controller;
 
 import com.user_management_app.dto.UserDto;
 import com.user_management_app.entity.User;
+import com.user_management_app.repository.UserRepository;
 import com.user_management_app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ public class UserController {
 
 
     private  final UserService userService;
+    private final UserRepository userRepository;
 
 
     @GetMapping("/getAll")
@@ -34,7 +36,6 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody UserDto userDto) {
         try {
-            // Convert DTO to Entity and create user
             User createdUser = userService.createUser(userDto);
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -55,9 +56,19 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}/details")
-    public ResponseEntity<Map<String, List<String>>> getUserRolePermission(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserRolePermissionNameByUserId(id));
+    @GetMapping("/role/{role}")
+    public List<User> getUsersByRole(@PathVariable String role) {
+        return userService.getUsersByRole(role);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> getUsersByFirstName(@RequestParam String firstName) {
+        List<User> users = userRepository.findByFirstName(firstName);
+
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(users);
+    }
 }

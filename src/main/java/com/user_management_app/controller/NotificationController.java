@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/notifications")
@@ -22,16 +23,15 @@ public class NotificationController {
         return ResponseEntity.ok(createdNotification);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Notification>> getNotificationsByUserId(@PathVariable Long userId) {
-        List<Notification> notifications = notificationService.getNotificationsByUserId(userId);
-        return ResponseEntity.ok(notifications);
-    }
-
     @GetMapping("/{notificationId}")
     public ResponseEntity<Notification> getNotificationById(@PathVariable Long notificationId) {
         Notification notification = notificationService.getNotificationById(notificationId);
         return ResponseEntity.ok(notification);
+    }
+
+    @GetMapping("/getAll")
+    public List<Notification> getAll(){
+        return notificationService.getAllNotification();
     }
 
     @DeleteMapping("/{notificationId}")
@@ -45,6 +45,13 @@ public class NotificationController {
 
         Notification updatedNotification =  notificationService.updateNotification(notificationId, notificationDetails);
         return ResponseEntity.ok(updatedNotification);
+    }
+
+    @GetMapping("/get-all-notification-for-specific-user/{userId}")
+    public ResponseEntity<List<Notification>> getAllNotificationForSpecificUser(@PathVariable Long userId){
+
+        List<Notification> notificationList =  notificationService.getAllNotificationForSpecificUser(userId);
+        return ResponseEntity.ok(notificationList);
     }
 }
 

@@ -17,6 +17,12 @@ public class RoleService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
+    public Role createRole(Role role) {
+        if (roleRepository.existsByName(role.getName())) {
+            throw new RuntimeException("Role already exists with name: " + role.getName());
+        }
+        return roleRepository.save(role);
+    }
 
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
@@ -28,13 +34,6 @@ public class RoleService {
                 .orElseThrow(() -> new RuntimeException("Role not found with id: " + id));
     }
 
-
-    public Role createRole(Role role) {
-        if (roleRepository.existsByName(role.getName())) {
-            throw new RuntimeException("Role already exists with name: " + role.getName());
-        }
-        return roleRepository.save(role);
-    }
 
     public Role updateRole(Long id, Role roleDetails) {
         Role existingRole = roleRepository.findById(id)

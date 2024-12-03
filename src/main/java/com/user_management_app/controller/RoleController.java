@@ -2,19 +2,24 @@ package com.user_management_app.controller;
 
 import com.user_management_app.entity.Role;
 import com.user_management_app.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
     @RestController
     @RequestMapping("/api/roles")
     public class RoleController {
 
-        @Autowired
-        private RoleService roleService;
+        private final  RoleService roleService;
+
+        @PostMapping("/create")
+        public Role createRole(@RequestBody Role role) {
+            return roleService.createRole(role);
+        }
 
         @GetMapping("/getAll")
         public List<Role> getAllRoles() {
@@ -25,11 +30,6 @@ import java.util.List;
         public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
             Role role = roleService.getRoleById(id);
             return ResponseEntity.ok(role);
-        }
-
-        @PostMapping("/create")
-        public Role createRole(@RequestBody Role role) {
-            return roleService.createRole(role);
         }
 
         @PutMapping("/{id}")

@@ -16,6 +16,12 @@ public class PermissionService {
     private final PermissionRepository permissionRepository;
     private final RoleRepository roleRepository;
 
+    public Permission createPermission(Permission permission) {
+        if (permissionRepository.findByName(permission.getName()).isPresent()) {
+            throw new RuntimeException("Permission already exists with name: " + permission.getName());
+        }
+        return permissionRepository.save(permission);
+    }
 
     public List<Permission> getAllPermissions() {
         return permissionRepository.findAll();
@@ -26,15 +32,6 @@ public class PermissionService {
         return permissionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Permission not found with id: " + id));
     }
-
-
-    public Permission createPermission(Permission permission) {
-        if (permissionRepository.findByName(permission.getName()).isPresent()) {
-            throw new RuntimeException("Permission already exists with name: " + permission.getName());
-        }
-        return permissionRepository.save(permission);
-    }
-
 
     public Permission updatePermission(Long id, Permission permissionDetails) {
         Permission existingPermission = permissionRepository.findById(id)

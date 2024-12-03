@@ -1,5 +1,6 @@
 package com.user_management_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class Permission {
     private String description;
 
     @ManyToMany(mappedBy = "permissions")
+    @JsonBackReference
     private Set<Role> roles = new HashSet<>();
 
     public String getPermissionName() {
